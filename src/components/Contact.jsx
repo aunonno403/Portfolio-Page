@@ -1,6 +1,6 @@
-export function Contact() {
+export function Contact({ onOpenCv }) {
   return (
-    <section className="contact section-grid reveal" id="contact">
+    <section className="contact section-grid reveal" id="contact" data-section="contact">
       <div className="section-heading">
         <p className="eyebrow">Contact</p>
         <h2>Open to opportunities, collaborations, and good problems.</h2>
@@ -18,13 +18,28 @@ export function Contact() {
             href="mailto:aunonnofarhan9@gmail.com"
             title="aunonnofarhan9@gmail.com">
             Email Me
-            </a>
-          
-            <a className="button button-secondary"
+          </a>
+
+          {onOpenCv && (
+            <button className="button button-secondary" type="button" onClick={onOpenCv}>
+              View CV
+            </button>
+          )}
+
+          <a className="button button-secondary"
             href="https://github.com/aunonno403"
             target="_blank"
             rel="noreferrer">
             View on GitHub
+          </a>
+
+          <a
+            className="button button-secondary"
+            href="https://www.facebook.com/aunonno403"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Facebook
           </a>
         </div>
       </div>

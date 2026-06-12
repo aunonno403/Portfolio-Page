@@ -1,6 +1,8 @@
-export function Hero() {
+import profilePhoto from "../../assets/resume_photo.jpg";
+
+export function Hero({ onOpenCv }) {
   return (
-    <section className="hero section-grid">
+    <section className="hero section-grid" data-section="hero">
       <div className="hero-copy reveal">
         <p className="eyebrow">AI & ML / Full-Stack Development / Competitive Programming</p>
         <h1>
@@ -19,6 +21,11 @@ export function Hero() {
           <a className="button button-secondary" href="#contact">
             Get In Touch
           </a>
+          {onOpenCv && (
+            <button className="button button-secondary" type="button" onClick={onOpenCv}>
+              Open CV
+            </button>
+          )}
         </div>
 
         <div className="hero-stats" aria-label="Highlights">
@@ -38,7 +45,10 @@ export function Hero() {
       </div>
 
       <aside className="hero-panel reveal" aria-label="Profile summary">
-        <div className="profile-chip">aunonno403</div>
+        <div className="profile-chip">Aunonno Farhan</div>
+        <div className="profile-photo">
+          <img className="profile-photo-image" src={profilePhoto} alt="Farhan portrait" />
+        </div>
         <div className="profile-visual">
           <div className="profile-orbit"></div>
           <div className="profile-core">

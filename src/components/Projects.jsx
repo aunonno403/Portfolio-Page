@@ -22,7 +22,7 @@ export function Projects() {
   }, []);
 
   return (
-    <section className="projects section-grid" id="projects">
+    <section className="projects section-grid" id="projects" data-section="projects">
       <div className="section-heading reveal">
         <p className="eyebrow">Projects</p>
         <h2>Live repositories from GitHub.</h2>

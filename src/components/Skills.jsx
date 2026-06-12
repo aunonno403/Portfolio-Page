@@ -1,6 +1,6 @@
 export function Skills() {
   return (
-    <section className="skills section-grid reveal" id="skills">
+    <section className="skills section-grid reveal" id="skills" data-section="skills">
       <div className="section-heading">
         <p className="eyebrow">Skills</p>
         <h2>A versatile toolkit across AI, web, and mobile development.</h2>

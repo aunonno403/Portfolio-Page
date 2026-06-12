@@ -1,6 +1,6 @@
 export function About() {
   return (
-    <section className="about section-grid reveal" id="about">
+    <section className="about section-grid reveal" id="about" data-section="about">
       <div className="section-heading">
         <p className="eyebrow">About</p>
         <h2>CS student. Builder. Problem solver.</h2>

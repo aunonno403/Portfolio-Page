@@ -35,7 +35,7 @@ export function Contact({ onOpenCv }) {
 
           <a
             className="button button-secondary"
-            href="https://www.facebook.com/aunonno403"
+            href="https://www.facebook.com/aunonnofarhan.nishorgo"
             target="_blank"
             rel="noreferrer"
           >

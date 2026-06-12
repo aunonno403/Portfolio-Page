@@ -1,10 +1,11 @@
 const NAV_ITEMS = [
-  { label: "About", href: "#about", section: "about" },
-  { label: "Projects", href: "#projects", section: "projects" },
-  { label: "Skills", href: "#skills", section: "skills" },
+  { label: "About", href: "/", section: "about" },
+  { label: "Projects", href: "/projects", section: "projects" },
+  { label: "Skills", href: "/skills", section: "skills" },
   { label: "CV", href: "/cv", section: "cv" },
-  { label: "Contact", href: "#contact", section: "contact" },
+  { label: "Contact", href: "/contact", section: "contact" },
 ];
+
 
 export function SiteNav({ route, activeSection, onNavigate }) {
   return (
@@ -13,7 +14,7 @@ export function SiteNav({ route, activeSection, onNavigate }) {
         <button className="site-brand" type="button" onClick={() => onNavigate("/") }>
           <span className="site-brand-mark">AF</span>
           <span>
-            Farhan <strong>Portfolio</strong>
+          <strong>My Portfolio</strong>
           </span>
         </button>
 

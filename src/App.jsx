@@ -23,6 +23,16 @@ export function App() {
   });
   const [activeSection, setActiveSection] = useState("about");
 
+  // Keep activeSection in sync with the current route.
+  useEffect(() => {
+    if (route === "/projects") setActiveSection("projects");
+    else if (route === "/skills") setActiveSection("skills");
+    else if (route === "/contact") setActiveSection("contact");
+    else if (route === "/cv") setActiveSection("cv");
+    else setActiveSection("about");
+  }, [route]);
+
+
   useEffect(() => {
     const handlePopState = () => {
       setRoute(normalizePath(window.location.pathname));
@@ -67,12 +77,15 @@ export function App() {
     if (nextPath.startsWith("#")) {
       const targetId = nextPath.slice(1);
 
+      // Only change the URL (so your route state stays on the same page),
+      // but do NOT reset scroll to top.
       window.history.pushState({}, "", `/${nextPath}`);
       setRoute("/");
       setActiveSection(targetId);
 
       const targetElement = document.getElementById(targetId);
       if (targetElement) {
+        // Use the viewport-relative API so you don't get a "scroll to top then down" effect.
         targetElement.scrollIntoView({ behavior: "smooth", block: "start" });
       }
 
@@ -82,14 +95,23 @@ export function App() {
     const normalizedPath = normalizePath(nextPath);
 
     if (normalizedPath === route) {
-      window.scrollTo({ top: 0, behavior: "auto" });
+      // If clicking the same route again, don't jump to top unless you intend to.
       return;
     }
 
     window.history.pushState({}, "", normalizedPath);
     setRoute(normalizedPath);
     setActiveSection("about");
-    window.scrollTo({ top: 0, behavior: "smooth" });
+
+    // Only scroll to top when navigating to a different *page* (e.g. /cv).
+    // This prevents the brief up-then-fast-down behavior when going between sections.
+    if (normalizedPath !== "/" && route === "/") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    if (normalizedPath === "/" && route !== "/") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   };
 
   return (
@@ -101,18 +123,21 @@ export function App() {
       <SiteNav route={route} activeSection={activeSection} onNavigate={navigateTo} />
 
       <main className="page-shell">
-        {route === "/cv" ? (
-          <CV page onNavigateHome={() => navigateTo("/")} />
-        ) : (
+        {/* Main page: hero + about only */}
+        {route === "/" && (
           <>
             <Hero onOpenCv={() => navigateTo("/cv")} />
             <About />
-            <Projects />
-            <Skills />
+            {/* optional preview; remove if you want CV only on /cv */}
             <CV preview onOpenCv={() => navigateTo("/cv")} />
-            <Contact onOpenCv={() => navigateTo("/cv")} />
           </>
         )}
+
+        {/* Separate pages (no hero/about) */}
+        {route === "/projects" && <Projects />}
+        {route === "/skills" && <Skills />}
+        {route === "/contact" && <Contact onOpenCv={() => navigateTo("/cv")} />}
+        {route === "/cv" && <CV page onNavigateHome={() => navigateTo("/")} />}
       </main>
     </>
   );

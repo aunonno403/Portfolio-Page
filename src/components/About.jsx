@@ -34,7 +34,7 @@ export function About() {
         <article>
           <h3>Problem Solving</h3>
           <p>
-            Daily LeetCode practice and active Codeforces participation (Rating: 902) keep
+            Daily LeetCode practice and active Codeforces participation to keep
             my fundamentals sharp and my thinking algorithmic.
           </p>
         </article>

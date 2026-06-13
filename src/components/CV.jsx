@@ -70,7 +70,7 @@ export function CV({ preview = false, page = false, onOpenCv, onNavigateHome }) 
 
           <aside className="cv-page-panel cv-card">
             <p className="cv-label">Summary</p>
-            <h3>Farhan, final-year CSE student</h3>
+            <h3>Aunonno Farhan, final-year CSE student</h3>
             <p>
               I work across AI/ML, full-stack development, and competitive programming, with a
               focus on shipping practical, production-ready projects.

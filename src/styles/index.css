@@ -187,11 +187,13 @@ a:hover {
 }
 
 .hero {
-  min-height: calc(100vh - 48px);
+  /* smaller hero so it doesn't look oversized */
+  min-height: auto;
   align-items: center;
-  grid-template-columns: 1.3fr 0.9fr;
-  gap: 28px;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 20px;
 }
+
 
 .hero-copy,
 .hero-panel,
@@ -315,6 +317,16 @@ h3 {
   font-size: 1.05rem;
   margin-bottom: 6px;
 }
+
+.hero-external-link {
+  color: var(--text);
+  text-decoration: none;
+}
+
+.hero-external-link:hover {
+  color: var(--neon);
+}
+
 
 .hero-stats span,
 .profile-list dt,

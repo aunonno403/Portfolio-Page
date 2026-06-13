@@ -125,8 +125,8 @@ export function Skills() {
           <span>Frameworks & Libraries</span>
         </div>
         <div className="highlight-stat">
-          <strong>902</strong>
-          <span>Codeforces Rating</span>
+          <strong>LeetCode & Codeforces</strong>
+          <span>Competitive Programming</span>
         </div>
         <div className="highlight-stat">
           <strong>ITEE FE</strong>

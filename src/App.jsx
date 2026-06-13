@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 import { Hero } from "./components/Hero";
 import { About } from "./components/About";
 import { CV } from "./components/CV";
@@ -139,6 +140,8 @@ export function App() {
         {route === "/contact" && <Contact onOpenCv={() => navigateTo("/cv")} />}
         {route === "/cv" && <CV page onNavigateHome={() => navigateTo("/")} />}
       </main>
+
+      <SpeedInsights />
     </>
   );
 }

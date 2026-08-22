@@ -1,138 +1,104 @@
-import profilePhoto from "../../assets/resume_photo.jpg";
-import "../styles/hero-social.css";
-
-function IconGithub() {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-      <path d="M12 2a10 10 0 00-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.77.6-3.35-1.18-3.35-1.18-.45-1.15-1.1-1.45-1.1-1.45-.9-.62.07-.61.07-.61 1 .07 1.53 1.02 1.53 1.02.9 1.52 2.36 1.08 2.94.83.09-.65.35-1.08.63-1.33-2.21-.25-4.53-1.1-4.53-4.9 0-1.08.39-1.97 1.03-2.66-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02A9.6 9.6 0 0112 6.8c.85 0 1.7.11 2.5.33 1.9-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.69 1.03 1.58 1.03 2.66 0 3.8-2.32 4.64-4.53 4.89.36.31.68.92.68 1.86v2.75c0 .27.18.58.69.48A10 10 0 0012 2z" />
-    </svg>
-  );
-}
-
-function IconLeetcode() {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-      <path d="M13.483 0a1.374 1.374 0 0 0-.961.438L7.116 6.226l-3.854 4.126a5.266 5.266 0 0 0-1.209 2.104 5.35 5.35 0 0 0-.125.513 5.527 5.527 0 0 0 .062 2.362 5.83 5.83 0 0 0 .349 1.017 5.938 5.938 0 0 0 1.271 1.818l4.277 4.193.039.038c2.248 2.165 5.852 2.133 8.063-.074l2.396-2.392c.54-.54.54-1.414.003-1.955a1.378 1.378 0 0 0-1.951-.003l-2.396 2.392a3.021 3.021 0 0 1-4.205.038l-.02-.019-4.276-4.193c-.652-.64-.972-1.469-.948-2.263a2.68 2.68 0 0 1 .066-.523 2.545 2.545 0 0 1 .619-1.164L9.13 8.114c1.058-1.134 3.204-1.27 4.43-.278l3.501 2.831c.593.48 1.461.387 1.94-.207a1.384 1.384 0 0 0-.207-1.943l-3.5-2.831c-.8-.647-1.766-1.045-2.774-1.202l2.015-2.158A1.384 1.384 0 0 0 13.483 0zm-2.866 12.815a1.38 1.38 0 0 0-1.38 1.382 1.38 1.38 0 0 0 1.38 1.382H19.79a1.38 1.38 0 0 0 1.38-1.382 1.38 1.38 0 0 0-1.38-1.382z"/>
-    </svg>
-  );
-}
-
-function IconCodeforces() {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-      <path d="M4.5 7.5C5.328 7.5 6 8.172 6 9v10.5c0 .828-.672 1.5-1.5 1.5h-3C.672 21 0 20.328 0 19.5V9c0-.828.672-1.5 1.5-1.5h3zm9-4.5c.828 0 1.5.672 1.5 1.5V19.5c0 .828-.672 1.5-1.5 1.5h-3c-.828 0-1.5-.672-1.5-1.5V4.5C9 3.672 9.672 3 10.5 3h3zm9 7.5c.828 0 1.5.672 1.5 1.5v9c0 .828-.672 1.5-1.5 1.5h-3c-.828 0-1.5-.672-1.5-1.5v-9c0-.828.672-1.5 1.5-1.5h3z"/>
-    </svg>
-  );
-}
+import profileWebp from "../assets/profile.webp";
+import profileWebp2x from "../assets/profile@2x.webp";
+import profileJpg from "../assets/profile.jpg";
+import profileJpg2x from "../assets/profile@2x.jpg";
+import { SITE, SOCIALS } from "../data/site";
+import { FACTS } from "../data/about";
+import { Button } from "./ui/Button";
+import { Container } from "./ui/Section";
+import { IconArrowUpRight, SOCIAL_ICONS } from "./ui/Icons";
 
 export function Hero({ onOpenCv }) {
   return (
-    <section className="hero section-grid" data-section="hero">
-      <div className="hero-copy reveal">
-        <p className="eyebrow">AI & ML / Full-Stack Development / Competitive Programming</p>
-        <h1>
-          Building intelligent, real-world software — from ML pipelines to deployed web applications.
-        </h1>
-        <p className="lede">
-          I'm a final-year CSE student at Jahangirnagar University who ships things that actually
-          work. I've built NLP systems, full-stack web apps, and Android applications — and I'm
-          always working on something new. Explore my projects and let's build something that matters.
-        </p>
+    <section id="top" className="pt-32 pb-16 sm:pt-40 sm:pb-24">
+      <Container>
+        <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-16">
+          <div className="reveal">
+            <p className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-1 text-xs font-medium text-muted">
+              <span
+                className="size-1.5 rounded-full bg-accent"
+                aria-hidden="true"
+              />
+              {SITE.availability}
+            </p>
 
-        <div className="hero-actions">
-          <a className="button button-primary" href="/projects">
-            View Projects
-          </a>
-          <a className="button button-secondary" href="/contact">
-            Get In Touch
-          </a>
-          {onOpenCv && (
-            <button className="button button-secondary" type="button" onClick={onOpenCv}>
-              Open CV
-            </button>
-          )}
-        </div>
+            <h1 className="text-4xl font-semibold leading-[1.08] sm:text-5xl lg:text-[3.5rem]">
+              {SITE.tagline}
+            </h1>
 
-        <div className="hero-stats" aria-label="Highlights">
-          <article>
-            <strong>
-              <a
-                className="hero-external-link"
-                href="https://github.com/aunonno403"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <span className="hero-social-icon" aria-hidden="true">
-                  <IconGithub />
-                </span>
-                GitHub
-              </a>
-            </strong>
-            <span>Profile</span>
-          </article>
-          <article>
-            <strong>
-              <a
-                className="hero-external-link"
-                href="https://leetcode.com/u/that1weeb/" 
-                target="_blank"
-                rel="noreferrer"
-              >
-                <span className="hero-social-icon" aria-hidden="true">
-                  <IconLeetcode />
-                </span>
-                LeetCode
-              </a>
-            </strong>
-            <span>Profile</span>
-          </article>
-          <article>
-            <strong>
-              <a
-                className="hero-external-link"
-                href="https://codeforces.com/profile/Aunonno_JU-CSE-30" 
-                target="_blank"
-                rel="noreferrer"
-              >
-                <span className="hero-social-icon" aria-hidden="true">
-                  <IconCodeforces />
-                </span>
-                Codeforces
-              </a>
-            </strong>
-            <span>Profile</span>
-          </article>
-        </div>
+            <p className="mt-6 max-w-xl text-base leading-relaxed text-muted sm:text-lg">
+              I'm Farhan — a final-year CSE student at {SITE.university} working across
+              machine learning and full-stack development. I build things that reach real
+              users, not just a passing grade.
+            </p>
 
-      </div>
+            <div className="mt-9 flex flex-wrap gap-3">
+              <Button href="#projects">View projects</Button>
+              <Button href="#contact" variant="secondary">
+                Get in touch
+              </Button>
+              <Button variant="ghost" onClick={onOpenCv}>
+                Open CV
+              </Button>
+            </div>
 
-      <aside className="hero-panel reveal" aria-label="Profile summary">
-        <div className="profile-chip">Aunonno Farhan</div>
-        <div className="profile-photo">
-          <img className="profile-photo-image" src={profilePhoto} alt="Farhan portrait" />
+            <ul className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3">
+              {SOCIALS.filter((social) => social.id !== "email").map((social) => {
+                const Icon = SOCIAL_ICONS[social.id];
+
+                return (
+                  <li key={social.id}>
+                    <a
+                      href={social.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="group inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-text"
+                    >
+                      <Icon className="text-base" />
+                      {social.label}
+                      <IconArrowUpRight className="text-xs opacity-0 transition-opacity group-hover:opacity-100" />
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+
+          <aside className="reveal lg:w-[19rem]">
+            <div className="overflow-hidden rounded-2xl border border-border bg-surface shadow-[var(--shadow-card)]">
+              <picture>
+                <source
+                  type="image/webp"
+                  srcSet={`${profileWebp} 1x, ${profileWebp2x} 2x`}
+                />
+                <img
+                  src={profileJpg}
+                  srcSet={`${profileJpg} 1x, ${profileJpg2x} 2x`}
+                  width={560}
+                  height={560}
+                  alt={`${SITE.name}, portrait`}
+                  // Lowercase: React 18 does not map the camelCase form.
+                  fetchpriority="high"
+                  decoding="async"
+                  className="aspect-square w-full object-cover"
+                />
+              </picture>
+
+              <dl className="divide-y divide-border border-t border-border text-sm">
+                {FACTS.map((fact) => (
+                  <div
+                    key={fact.label}
+                    className="flex items-baseline justify-between gap-4 px-4 py-3"
+                  >
+                    <dt className="shrink-0 text-muted">{fact.label}</dt>
+                    <dd className="text-right font-medium">{fact.value}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+          </aside>
         </div>
-        <div className="profile-visual">
-          <div className="profile-orbit"></div>
-          <div className="profile-core">
-            <span>Open to opportunities</span>
-            <strong>Farhan's Portfolio</strong>
-          </div>
-        </div>
-        <dl className="profile-list">
-          <div>
-            <dt>Expertise</dt>
-            <dd>AI/ML & Full-Stack</dd>
-          </div>
-          <div>
-            <dt>University</dt>
-            <dd>Jahangirnagar University</dd>
-          </div>
-          <div>
-            <dt>Location</dt>
-            <dd>Savar, Dhaka, Bangladesh</dd>
-          </div>
-        </dl>
-      </aside>
+      </Container>
     </section>
   );
 }

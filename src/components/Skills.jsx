@@ -1,145 +1,79 @@
-import "../styles/skills.css";
+import { CREDENTIALS, SKILL_GROUPS } from "../data/skills";
+import { Container, Section } from "./ui/Section";
 
-const SKILLS = [
-  {
-    category: "AI & Machine Learning",
-    icon: "🤖",
-    items: [
-      { name: "Python", level: 90 },
-      { name: "Scikit-learn", level: 80 },
-      { name: "TensorFlow", level: 70 },
-      { name: "OpenCV", level: 75 },
-      { name: "NLP & TF-IDF", level: 80 },
-      { name: "MediaPipe", level: 65 },
-    ],
-  },
-  {
-    category: "Web Development",
-    icon: "🌐",
-    items: [
-      { name: "React & Next.js", level: 80 },
-      { name: "TypeScript", level: 75 },
-      { name: "Django", level: 80 },
-      { name: "HTMX", level: 70 },
-      { name: "Bootstrap & Tailwind", level: 75 },
-      { name: "REST APIs", level: 80 },
-    ],
-  },
-  {
-    category: "Mobile Development",
-    icon: "📱",
-    items: [
-      { name: "Kotlin", level: 70 },
-      { name: "Android Studio", level: 70 },
-      { name: "Firebase", level: 75 },
-      { name: "ML Kit", level: 65 },
-      { name: "CameraX", level: 60 },
-      { name: "Material Design 3", level: 70 },
-    ],
-  },
-  {
-    category: "Databases & Cloud",
-    icon: "🗄️",
-    items: [
-      { name: "MongoDB", level: 75 },
-      { name: "MySQL", level: 75 },
-      { name: "Redis", level: 70 },
-      { name: "Firebase DB", level: 70 },
-      { name: "Google BigQuery", level: 60 },
-      { name: "Railway & Vercel", level: 70 },
-    ],
-  },
-  {
-    category: "Problem Solving",
-    icon: "🧠",
-    items: [
-      { name: "C++", level: 80 },
-      { name: "Data Structures", level: 80 },
-      { name: "Algorithms", level: 75 },
-      { name: "Dynamic Programming", level: 70 },
-      { name: "Binary Search", level: 75 },
-      { name: "Greedy Algorithms", level: 70 },
-    ],
-  },
-  {
-    category: "Tools & Platforms",
-    icon: "🛠️",
-    items: [
-      { name: "Git & GitHub", level: 85 },
-      { name: "VS Code", level: 90 },
-      { name: "Google Colab", level: 80 },
-      { name: "Streamlit", level: 75 },
-      { name: "Android Studio", level: 70 },
-      { name: "Postman", level: 65 },
-    ],
-  },
-];
-
-function SkillBar({ name, level }) {
+function Tag({ children, tone = "core" }) {
   return (
-    <div className="skill-bar">
-      <div className="skill-bar-header">
-        <span className="skill-name">{name}</span>
-        <span className="skill-level">{level}%</span>
-      </div>
-      <div className="skill-bar-track" aria-label={`${name} proficiency ${level}%`}>
-        <div className="skill-bar-fill" style={{ width: `${level}%` }} />
-      </div>
-    </div>
-  );
-}
-
-function SkillCard({ category, icon, items }) {
-  return (
-    <article className="skill-card">
-      <header className="skill-card-header">
-        <span className="skill-card-icon" aria-hidden="true">
-          {icon}
-        </span>
-        <h3>{category}</h3>
-      </header>
-      <div className="skill-bars">
-        {items.map((skill) => (
-          <SkillBar key={skill.name} name={skill.name} level={skill.level} />
-        ))}
-      </div>
-    </article>
+    <li
+      className={
+        tone === "core"
+          ? "rounded-md border border-accent/25 bg-accent-soft px-2.5 py-1 text-xs font-medium text-accent"
+          : "rounded-md border border-border bg-surface-2 px-2.5 py-1 text-xs text-muted"
+      }
+    >
+      {children}
+    </li>
   );
 }
 
 export function Skills() {
   return (
-    <section className="skills section-grid reveal" id="skills" data-section="skills">
-      <div className="section-heading">
-        <p className="eyebrow">Skills</p>
-        <h2>A versatile toolkit across AI, web, and mobile development.</h2>
-      </div>
+    <Container>
+      <Section
+        id="skills"
+        eyebrow="Skills"
+        title="A toolkit across AI, web, and mobile."
+        intro="Split into what I reach for by default and what I've shipped with at least once — no invented percentages."
+      >
+        <dl className="reveal mb-14 grid gap-px overflow-hidden rounded-2xl border border-border bg-border sm:grid-cols-2 lg:grid-cols-4">
+          {CREDENTIALS.map((item) => (
+            <div key={item.value} className="bg-surface px-5 py-6">
+              <dt className="font-display text-xl font-semibold text-accent">
+                {item.value}
+              </dt>
+              <dd className="mt-1.5 text-sm leading-snug text-muted">{item.label}</dd>
+            </div>
+          ))}
+        </dl>
 
-      <div className="skills-highlight">
-        <div className="highlight-stat">
-          <strong>7+</strong>
-          <span>Languages</span>
-        </div>
-        <div className="highlight-stat">
-          <strong>15+</strong>
-          <span>Frameworks & Libraries</span>
-        </div>
-        <div className="highlight-stat">
-          <strong>LeetCode & Codeforces</strong>
-          <span>Competitive Programming</span>
-        </div>
-        <div className="highlight-stat">
-          <strong>ITEE FE</strong>
-          <span>Certified</span>
-        </div>
-      </div>
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {SKILL_GROUPS.map((group) => (
+            <article
+              key={group.category}
+              className="reveal rounded-2xl border border-border bg-surface p-6"
+            >
+              <h3 className="text-base font-semibold">{group.category}</h3>
 
-      <div className="skills-grid">
-        {SKILLS.map((group) => (
-          <SkillCard key={group.category} category={group.category} icon={group.icon} items={group.items} />
-        ))}
-      </div>
-    </section>
+              <ul className="mt-4 flex flex-wrap gap-1.5">
+                {group.core.map((skill) => (
+                  <Tag key={skill}>{skill}</Tag>
+                ))}
+                {group.familiar.map((skill) => (
+                  <Tag key={skill} tone="familiar">
+                    {skill}
+                  </Tag>
+                ))}
+              </ul>
+            </article>
+          ))}
+        </div>
+
+        <p className="reveal mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-faint">
+          <span className="inline-flex items-center gap-2">
+            <span
+              className="size-2.5 rounded-sm border border-accent/25 bg-accent-soft"
+              aria-hidden="true"
+            />
+            Core
+          </span>
+          <span className="inline-flex items-center gap-2">
+            <span
+              className="size-2.5 rounded-sm border border-border bg-surface-2"
+              aria-hidden="true"
+            />
+            Familiar
+          </span>
+        </p>
+      </Section>
+    </Container>
   );
 }
-

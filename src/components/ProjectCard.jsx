@@ -1,97 +1,110 @@
-import { formatCount } from "../utils/github";
+import { FALLBACK_LANGUAGE_COLOR, LANGUAGE_COLORS } from "../data/projects";
+import { IconArrowUpRight, IconClock, IconFork, IconStar } from "./ui/Icons";
 
-const LANGUAGE_COLORS = {
-  JavaScript: "#f1e05a",
-  TypeScript: "#3178c6",
-  Python: "#3572A5",
-  Kotlin: "#A97BFF",
-  Java: "#b07219",
-  HTML: "#e34c26",
-  CSS: "#563d7c",
-  Dart: "#00B4AB",
-  Mixed: "#8b8b8b",
-};
+function LanguageTag({ language }) {
+  if (!language) return null;
 
-export function ProjectCard({ repo }) {
-  const language = repo.language ?? "Mixed";
-  const langColor = LANGUAGE_COLORS[language] ?? "#8b8b8b";
-  const stars = formatCount(repo.stargazers_count ?? 0, "star");
-  const forks = formatCount(repo.forks_count ?? 0, "fork");
-  const updated = repo.updated_at
-    ? new Date(repo.updated_at).toLocaleDateString(undefined, {
-        month: "short",
-        year: "numeric",
-      })
-    : "Recently updated";
+  return (
+    <span className="inline-flex items-center gap-1.5 text-xs text-muted">
+      <span
+        className="size-2 shrink-0 rounded-full"
+        style={{ backgroundColor: LANGUAGE_COLORS[language] ?? FALLBACK_LANGUAGE_COLOR }}
+        aria-hidden="true"
+      />
+      {language}
+    </span>
+  );
+}
 
-  const topics =
-    Array.isArray(repo.topics) && repo.topics.length > 0
-      ? repo.topics.slice(0, 4)
-      : [language.toLowerCase()].filter(Boolean);
+function Stat({ icon: Icon, value, label }) {
+  return (
+    <span className="inline-flex items-center gap-1.5 text-xs text-faint">
+      <Icon className="text-sm" />
+      <span>
+        {value}
+        <span className="sr-only"> {label}</span>
+      </span>
+    </span>
+  );
+}
 
-  const displayName = repo.name
-    ? repo.name.replace(/-/g, " ").replace(/_/g, " ")
-    : "Untitled Project";
+export function ProjectCard({ project }) {
+  const { featured } = project;
 
   return (
     <article
-      className={`project-card reveal ${repo.fork ? "project-card--fork" : ""}`}
-      data-tilt-card="true"
+      className={`reveal group flex flex-col rounded-2xl border border-border bg-surface transition-all duration-200 hover:border-border-strong hover:shadow-[var(--shadow-lift)] ${
+        featured ? "p-6 sm:p-7" : "p-5"
+      }`}
     >
-      <header>
-        <div>
-          {repo.fork && <span className="repo-badge repo-badge--fork">Fork</span>}
-          <h3 title={repo.name}>{displayName}</h3>
-        </div>
-        <span className="project-meta language-tag">
-          <span
-            className="language-dot"
-            style={{ backgroundColor: langColor }}
-            aria-hidden="true"
-          />
-          {language}
-        </span>
+      <header className="flex items-start justify-between gap-4">
+        <h3
+          className={`font-semibold capitalize leading-snug ${
+            featured ? "text-lg" : "text-base"
+          }`}
+        >
+          {project.title}
+        </h3>
+        {project.highlight && (
+          <span className="shrink-0 rounded-full bg-accent-soft px-2.5 py-1 text-[0.6875rem] font-medium text-accent">
+            {project.highlight}
+          </span>
+        )}
       </header>
 
-      <p className="project-description">
-        {repo.description?.trim() || "No description provided yet."}
-      </p>
-
-      <div className="project-meta project-stats">
-        <span title="Stars">⭐ {stars}</span>
-        <span title="Forks">🍴 {forks}</span>
-        <span title="Last updated">🕒 {updated}</span>
-      </div>
-
-      {topics.length > 0 && (
-        <div className="project-topics">
-          {topics.map((topic) => (
-            <span key={topic} className="topic-tag">
-              {topic}
-            </span>
-          ))}
-        </div>
+      {project.summary && (
+        <p
+          className={`mt-3 flex-1 leading-relaxed text-muted ${
+            featured ? "text-sm" : "text-[0.8125rem]"
+          }`}
+        >
+          {project.summary}
+        </p>
       )}
 
-      <div className="project-links">
+      {project.stack.length > 0 && (
+        <ul className="mt-5 flex flex-wrap gap-1.5">
+          {project.stack.map((item) => (
+            <li
+              key={item}
+              className="rounded-md border border-border bg-surface-2 px-2 py-0.5 text-[0.6875rem] text-muted"
+            >
+              {item}
+            </li>
+          ))}
+        </ul>
+      )}
+
+      <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-border pt-4">
+        <LanguageTag language={project.language} />
+        {project.stars > 0 && <Stat icon={IconStar} value={project.stars} label="stars" />}
+        {project.forks > 0 && <Stat icon={IconFork} value={project.forks} label="forks" />}
+        {project.updated && (
+          <Stat icon={IconClock} value={project.updated} label="last updated" />
+        )}
+      </div>
+
+      <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-sm">
         <a
-          href={repo.html_url}
+          href={project.url}
           target="_blank"
           rel="noreferrer"
-          className="project-details-toggle"
-          aria-label={`View ${displayName} on GitHub`}
+          className="inline-flex items-center gap-1 font-medium text-text transition-colors hover:text-accent"
         >
-          View on GitHub
+          Source
+          <IconArrowUpRight className="text-xs" />
+          <span className="sr-only">for {project.title} on GitHub</span>
         </a>
-        {repo.homepage && (
+        {project.demo && (
           <a
-            href={repo.homepage}
+            href={project.demo}
             target="_blank"
             rel="noreferrer"
-            className="project-details-toggle"
-            aria-label={`View live demo of ${displayName}`}
+            className="inline-flex items-center gap-1 font-medium text-accent transition-colors hover:text-accent-hover"
           >
-            Live Demo
+            Live demo
+            <IconArrowUpRight className="text-xs" />
+            <span className="sr-only">of {project.title}</span>
           </a>
         )}
       </div>

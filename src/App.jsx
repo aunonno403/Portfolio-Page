@@ -1,13 +1,22 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
+import { SiteNav } from "./components/SiteNav";
 import { Hero } from "./components/Hero";
 import { About } from "./components/About";
-import { CV } from "./components/CV";
-import { SiteNav } from "./components/SiteNav";
 import { Projects } from "./components/Projects";
 import { Skills } from "./components/Skills";
+import { Experience } from "./components/Experience";
 import { Contact } from "./components/Contact";
-import "./styles/index.css";
+import { Footer } from "./components/Footer";
+import { CvPage } from "./components/CvPage";
+import { NAV_ITEMS, SITE } from "./data/site";
+import { useActiveSection } from "./hooks/useActiveSection";
+import "./styles/globals.css";
+
+const TITLES = {
+  "/": `${SITE.name} — ${SITE.role}`,
+  "/cv": `CV — ${SITE.name}`,
+};
 
 function normalizePath(pathname) {
   const trimmed = pathname.replace(/\/+$/, "");
@@ -15,132 +24,94 @@ function normalizePath(pathname) {
 }
 
 export function App() {
-  const [route, setRoute] = useState(() => {
-    if (typeof window === "undefined") {
-      return "/";
-    }
+  const [route, setRoute] = useState(() =>
+    typeof window === "undefined" ? "/" : normalizePath(window.location.pathname)
+  );
 
-    return normalizePath(window.location.pathname);
-  });
-  const [activeSection, setActiveSection] = useState("about");
+  const sectionIds = useMemo(() => NAV_ITEMS.map((item) => item.id), []);
+  const activeSection = useActiveSection(sectionIds, route === "/");
 
-  // Keep activeSection in sync with the current route.
   useEffect(() => {
-    if (route === "/projects") setActiveSection("projects");
-    else if (route === "/skills") setActiveSection("skills");
-    else if (route === "/contact") setActiveSection("contact");
-    else if (route === "/cv") setActiveSection("cv");
-    else setActiveSection("about");
+    document.title = TITLES[route] ?? TITLES["/"];
   }, [route]);
 
-
   useEffect(() => {
-    const handlePopState = () => {
-      setRoute(normalizePath(window.location.pathname));
-      window.scrollTo({ top: 0, behavior: "instant" });
-    };
+    const handlePopState = () => setRoute(normalizePath(window.location.pathname));
 
     window.addEventListener("popstate", handlePopState);
     return () => window.removeEventListener("popstate", handlePopState);
   }, []);
 
+  // Honour a #section deep link on first load, once the sections have mounted.
   useEffect(() => {
-    if (route !== "/") {
-      return;
-    }
+    if (route !== "/" || !window.location.hash) return;
 
-    const sectionElements = Array.from(document.querySelectorAll("[data-section]"));
+    const target = document.getElementById(window.location.hash.slice(1));
+    if (target) target.scrollIntoView({ behavior: "instant", block: "start" });
+    // Intentionally first-load only.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-    if (sectionElements.length === 0) {
-      return;
-    }
+  const navigateTo = useCallback(
+    (target) => {
+      if (target.startsWith("#")) {
+        const id = target.slice(1);
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visibleEntry = entries.find((entry) => entry.isIntersecting);
-
-        if (visibleEntry) {
-          setActiveSection(visibleEntry.target.getAttribute("data-section") || "about");
+        // Section links belong to the homepage; come back to it first.
+        if (route !== "/") {
+          window.history.pushState({}, "", `/${target}`);
+          setRoute("/");
+          // Let the sections mount before scrolling to one.
+          requestAnimationFrame(() => {
+            document.getElementById(id)?.scrollIntoView({ block: "start" });
+          });
+          return;
         }
-      },
-      {
-        rootMargin: "-28% 0px -50% 0px",
-        threshold: 0.15,
-      }
-    );
 
-    sectionElements.forEach((element) => observer.observe(element));
-
-    return () => observer.disconnect();
-  }, [route]);
-
-  const navigateTo = (nextPath) => {
-    if (nextPath.startsWith("#")) {
-      const targetId = nextPath.slice(1);
-
-      // Only change the URL (so your route state stays on the same page),
-      // but do NOT reset scroll to top.
-      window.history.pushState({}, "", `/${nextPath}`);
-      setRoute("/");
-      setActiveSection(targetId);
-
-      const targetElement = document.getElementById(targetId);
-      if (targetElement) {
-        // Use the viewport-relative API so you don't get a "scroll to top then down" effect.
-        targetElement.scrollIntoView({ behavior: "smooth", block: "start" });
+        window.history.pushState({}, "", target);
+        document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+        return;
       }
 
-      return;
-    }
+      const path = normalizePath(target);
+      if (path === route) return;
 
-    const normalizedPath = normalizePath(nextPath);
-
-    if (normalizedPath === route) {
-      // If clicking the same route again, don't jump to top unless you intend to.
-      return;
-    }
-
-    window.history.pushState({}, "", normalizedPath);
-    setRoute(normalizedPath);
-    setActiveSection("about");
-
-    // Only scroll to top when navigating to a different *page* (e.g. /cv).
-    // This prevents the brief up-then-fast-down behavior when going between sections.
-    if (normalizedPath !== "/" && route === "/") {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-
-    if (normalizedPath === "/" && route !== "/") {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-  };
+      window.history.pushState({}, "", path);
+      setRoute(path);
+      window.scrollTo({ top: 0, behavior: "instant" });
+    },
+    [route]
+  );
 
   return (
     <>
-      <div className="ambient ambient-left"></div>
-      <div className="ambient ambient-right"></div>
-      <div className="scanlines"></div>
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-full focus:bg-accent focus:px-4 focus:py-2 focus:text-sm focus:text-accent-fg"
+      >
+        Skip to content
+      </a>
 
       <SiteNav route={route} activeSection={activeSection} onNavigate={navigateTo} />
 
-      <main className="page-shell">
-        {/* Main page: hero + about only */}
-        {route === "/" && (
+      <main id="main">
+        {route === "/" ? (
           <>
             <Hero onOpenCv={() => navigateTo("/cv")} />
             <About />
-            {/* optional preview; remove if you want CV only on /cv */}
-            <CV preview onOpenCv={() => navigateTo("/cv")} />
+            <Projects />
+            <Skills />
+            <Experience onOpenCv={() => navigateTo("/cv")} />
+            <Contact onOpenCv={() => navigateTo("/cv")} />
           </>
+        ) : (
+          <div className="pt-20">
+            <CvPage onNavigateHome={() => navigateTo("/")} />
+          </div>
         )}
-
-        {/* Separate pages (no hero/about) */}
-        {route === "/projects" && <Projects />}
-        {route === "/skills" && <Skills />}
-        {route === "/contact" && <Contact onOpenCv={() => navigateTo("/cv")} />}
-        {route === "/cv" && <CV page onNavigateHome={() => navigateTo("/")} />}
       </main>
 
+      <Footer onNavigate={navigateTo} />
       <SpeedInsights />
     </>
   );

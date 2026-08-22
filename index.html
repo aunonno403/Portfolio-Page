@@ -1,19 +1,91 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Aunonno Farhan — AI/ML &amp; Full-Stack Developer</title>
     <meta
       name="description"
-      content="A futuristic portfolio landing page for aunonno403, powered by live GitHub projects."
+      content="Final-year CSE student at Jahangirnagar University building machine learning systems and full-stack web applications. Selected projects, skills, and CV."
     />
-    <title>Aunonno403 | Futuristic Portfolio</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
+    <meta name="author" content="Aunonno Farhan" />
+    <link rel="canonical" href="https://portfolio-page-lilac-rho.vercel.app/" />
+    <meta name="theme-color" content="#0a0a0b" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)" />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://portfolio-page-lilac-rho.vercel.app/" />
+    <meta property="og:title" content="Aunonno Farhan — AI/ML &amp; Full-Stack Developer" />
+    <meta
+      property="og:description"
+      content="Final-year CSE student at Jahangirnagar University building machine learning systems and full-stack web applications."
     />
+    <meta property="og:image" content="https://portfolio-page-lilac-rho.vercel.app/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Aunonno Farhan, AI/ML and full-stack developer" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Aunonno Farhan — AI/ML &amp; Full-Stack Developer" />
+    <meta
+      name="twitter:description"
+      content="Final-year CSE student at Jahangirnagar University building machine learning systems and full-stack web applications."
+    />
+    <meta name="twitter:image" content="https://portfolio-page-lilac-rho.vercel.app/og-image.png" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Aunonno Farhan",
+        "url": "https://portfolio-page-lilac-rho.vercel.app/",
+        "jobTitle": "AI/ML & Full-Stack Developer",
+        "email": "mailto:aunonnofarhan9@gmail.com",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Savar",
+          "addressRegion": "Dhaka",
+          "addressCountry": "BD"
+        },
+        "alumniOf": {
+          "@type": "CollegeOrUniversity",
+          "name": "Jahangirnagar University"
+        },
+        "knowsAbout": [
+          "Machine Learning",
+          "Natural Language Processing",
+          "Full-Stack Web Development",
+          "Competitive Programming"
+        ],
+        "sameAs": [
+          "https://github.com/aunonno403",
+          "https://leetcode.com/u/that1weeb/",
+          "https://codeforces.com/profile/Aunonno_JU-CSE-30"
+        ]
+      }
+    </script>
+
+    <!--
+      Applies the stored theme before first paint. Without this the page renders
+      in the default theme for one frame and then swaps, which reads as a flash.
+    -->
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem("theme");
+          var dark = stored
+            ? stored === "dark"
+            : window.matchMedia("(prefers-color-scheme: dark)").matches;
+          document.documentElement.classList.toggle("dark", dark);
+        } catch (e) {
+          /* Storage blocked — keep the default dark class from the markup. */
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
